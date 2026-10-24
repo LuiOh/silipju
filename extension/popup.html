@@ -1,0 +1,56 @@
+<!doctype html>
+<!-- 수집기 설정(앱 주소·켜기/끄기)과 수집 현황을 보여주는 팝업 -->
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body { width: 320px; margin: 0; padding: 14px; font: 13px/1.5 "Pretendard", "Apple SD Gothic Neo", system-ui, sans-serif; color: #1c2430; }
+      h1 { font-size: 15px; margin: 0 0 4px; }
+      p { margin: 0 0 10px; color: #5b6575; }
+      label { display: block; margin: 10px 0 4px; font-weight: 600; }
+      input[type="text"] { width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid #c9d1dc; border-radius: 6px; }
+      .row { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+      .stats { margin-top: 12px; padding: 10px; background: #f3f6fa; border-radius: 8px; }
+      .stats b { font-variant-numeric: tabular-nums; }
+      .msg { margin-top: 8px; color: #5b6575; word-break: break-all; }
+      button { padding: 6px 10px; border: 1px solid #c9d1dc; background: #fff; border-radius: 6px; cursor: pointer; }
+      button.primary { background: #1f6feb; border-color: #1f6feb; color: #fff; }
+      button.wide { width: 100%; height: 36px; font-weight: 700; }
+      .job { margin: 8px 0 12px; }
+      .hint { margin-top: 4px; font-size: 12px; }
+      .bar { height: 6px; margin-top: 8px; border-radius: 99px; background: #e3e8ef; overflow: hidden; }
+      .bar i { display: block; height: 100%; width: 0; background: #1f6feb; transition: width 0.3s; }
+    </style>
+  </head>
+  <body>
+    <h1>실입주 수집기</h1>
+    <div class="stats job">
+      <b>지역 자동 수집</b>
+      <div class="msg" id="jobStatus">아직 시작한 자동 수집이 없습니다.</div>
+      <div class="bar"><i id="jobBar"></i></div>
+      <div class="row">
+        <button class="primary" id="pick">지역 고르기</button>
+        <button id="resume" hidden>이어서 수집</button>
+        <button id="stop" hidden>중지</button>
+      </div>
+    </div>
+    <p class="hint">지도 한 화면만 받을 때는 네이버페이 부동산 지도에서 필터를 건 뒤 아래 버튼이나 화면 오른쪽 아래 패널을 누르세요. 세안고는 실입주 앱에서 걸러집니다.</p>
+    <button class="wide" id="import">지금 탭에서 가져오기</button>
+    <div class="msg" id="importMsg"></div>
+    <div class="row">
+      <input id="enabled" type="checkbox" />
+      <span>수집 켜기</span>
+    </div>
+    <label for="appUrl">실입주 앱 주소</label>
+    <input id="appUrl" type="text" placeholder="http://localhost:3210" />
+    <div class="stats">
+      목록 <b id="lists">0</b>건 · 상세 <b id="details">0</b>건 · 실패 <b id="errors">0</b>건
+      <div class="msg" id="message"></div>
+    </div>
+    <div class="row">
+      <button id="open">앱 열기</button>
+      <button id="reset">기록 초기화</button>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>

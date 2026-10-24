@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "실입주 수집기",
+  "version": "0.4.0",
+  "description": "실입주 앱에서 고른 지역을 네이버페이 부동산 지도에서 칸마다 열어 매매 아파트 매물 목록을 로컬 실입주 앱에 저장합니다. 네이버 API를 직접 호출하지 않습니다.",
+  "permissions": ["storage"],
+  "host_permissions": ["http://localhost/*", "http://127.0.0.1/*"],
+  "background": { "service_worker": "background.js" },
+  "content_scripts": [
+    {
+      "matches": ["https://fin.land.naver.com/*"],
+      "js": ["page-hook.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    },
+    {
+      "matches": ["https://fin.land.naver.com/*", "https://new.land.naver.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["http://localhost/*", "http://127.0.0.1/*"],
+      "js": ["app-bridge.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": { "default_popup": "popup.html", "default_title": "실입주 수집기" }
+}

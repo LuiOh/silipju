@@ -1,0 +1,199 @@
+/* 실입주 디자인 토큰(색·타이포·반경·그림자)과 지도 마커 등 전역 스타일 */
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, -apple-system, sans-serif;
+
+  /* 바탕·선 */
+  --color-canvas: #f3f4f7;
+  --color-surface: #ffffff;
+  --color-surface-2: #f7f8fa;
+  --color-surface-3: #eef0f4;
+  --color-line: #e2e5ea;
+  --color-line-strong: #c9ced7;
+
+  /* 글자 */
+  --color-ink: #12161d;
+  --color-ink-2: #3d4552;
+  --color-ink-3: #5f6774;
+  --color-ink-4: #8a929e;
+
+  /* 브랜드(실입주 블루) */
+  --color-brand-50: #eef3ff;
+  --color-brand-100: #dce6ff;
+  --color-brand-200: #bccdff;
+  --color-brand-500: #3a66ea;
+  --color-brand-600: #2552d8;
+  --color-brand-700: #1c40ad;
+  --color-brand-900: #13265e;
+
+  /* 세안고 판정 상태 */
+  --color-seango: #c42d27;
+  --color-seango-soft: #fdecea;
+  --color-suspect: #a84d09;
+  --color-suspect-soft: #fff0e2;
+  --color-movein: #11744a;
+  --color-movein-soft: #e5f5ec;
+  --color-unknown: #59616e;
+  --color-unknown-soft: #edeff2;
+
+  /* 반경·그림자 */
+  --radius-card: 0.875rem;
+  --radius-control: 0.5rem;
+  --shadow-card: 0 1px 2px rgb(18 22 29 / 0.05), 0 1px 1px rgb(18 22 29 / 0.03);
+  --shadow-lift: 0 6px 20px -6px rgb(18 22 29 / 0.16), 0 2px 6px rgb(18 22 29 / 0.06);
+  --shadow-pop: 0 18px 48px -12px rgb(18 22 29 / 0.28), 0 4px 12px rgb(18 22 29 / 0.08);
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  word-break: keep-all;
+}
+
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+input[type="range"],
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--color-brand-600);
+}
+
+.scroll-thin {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+
+/* 지도 마커(Leaflet divIcon 안에 들어가는 HTML) */
+.map-anchor {
+  background: transparent;
+  border: 0;
+}
+.map-pin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, calc(-100% - 6px));
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: 700 12px/1.3 var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  box-shadow: var(--shadow-lift);
+  border: 1px solid var(--color-line-strong);
+  cursor: pointer;
+  transition: transform 120ms ease, background-color 120ms ease;
+}
+.map-pin::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+  transform: translateX(-50%) rotate(45deg);
+}
+.map-pin-count {
+  font-weight: 600;
+  color: var(--color-ink-3);
+}
+.map-pin--movein {
+  background: var(--color-movein);
+  color: #fff;
+  border-color: var(--color-movein);
+}
+.map-pin--movein::after {
+  border-color: var(--color-movein);
+}
+.map-pin--active {
+  background: var(--color-brand-600);
+  color: #fff;
+  border-color: var(--color-brand-600);
+  transform: translate(-50%, calc(-100% - 6px)) scale(1.12);
+}
+.map-pin--active::after {
+  border-color: var(--color-brand-600);
+}
+.map-pin--movein .map-pin-count,
+.map-pin--active .map-pin-count {
+  color: rgb(255 255 255 / 0.82);
+}
+.map-work {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  padding: 4px 9px 4px 4px;
+  border-radius: 8px;
+  background: var(--color-brand-900);
+  color: #fff;
+  font: 600 12px/1.2 var(--font-sans);
+  box-shadow: var(--shadow-lift);
+}
+.map-work b {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  background: rgb(255 255 255 / 0.2);
+  font-size: 11px;
+}
+/* OSM 기본 타일의 채도·대비를 낮춰 지하철 노선과 가격 마커가 먼저 읽히는 옅은 바탕으로 만든다 */
+.map-basemap {
+  filter: saturate(0.12) brightness(1.06) contrast(0.86);
+}
+.map-station {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(var(--station-offset, 6px), -50%);
+  white-space: nowrap;
+  pointer-events: none;
+  color: var(--color-ink);
+  font: 600 11px/1.2 var(--font-sans);
+  letter-spacing: -0.01em;
+  text-shadow:
+    0 0 2px var(--color-surface),
+    0 0 2px var(--color-surface),
+    1px 1px 0 var(--color-surface),
+    -1px -1px 0 var(--color-surface),
+    1px -1px 0 var(--color-surface),
+    -1px 1px 0 var(--color-surface);
+}
+.map-picking,
+.map-picking .leaflet-grab,
+.map-picking .leaflet-interactive {
+  cursor: crosshair;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
